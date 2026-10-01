@@ -40,6 +40,11 @@ class Config:
     captures_file: Path = Path("captured_requests.json")
     telegram_bot_token: str = field(default="", repr=False)
     telegram_chat_id: str = ""
+    email_smtp_host: str = "smtp.gmail.com"
+    email_smtp_port: int = 587
+    email_username: str = ""
+    email_password: str = field(default="", repr=False)
+    email_to: str = ""
 
 
 def _load_dotenv(path):
@@ -84,6 +89,11 @@ def load_config(base=Path(".")):
         captures_file=base / raw.get("captures_file", "captured_requests.json"),
         telegram_bot_token=os.environ.get("TELEGRAM_BOT_TOKEN", ""),
         telegram_chat_id=os.environ.get("TELEGRAM_CHAT_ID", ""),
+        email_smtp_host=os.environ.get("EMAIL_SMTP_HOST") or Config.email_smtp_host,
+        email_smtp_port=int(os.environ.get("EMAIL_SMTP_PORT") or Config.email_smtp_port),
+        email_username=os.environ.get("EMAIL_USERNAME", ""),
+        email_password=os.environ.get("EMAIL_PASSWORD", "").replace(" ", ""),
+        email_to=os.environ.get("EMAIL_TO", "") or os.environ.get("EMAIL_USERNAME", ""),
     )
     if cfg.earliest_acceptable_date is None:
         cfg.earliest_acceptable_date = date.today() + timedelta(days=2)
@@ -99,9 +109,19 @@ def load_config(base=Path(".")):
     return cfg
 
 
-def require_telegram(cfg):
-    if not cfg.telegram_bot_token or not cfg.telegram_chat_id:
-        raise ConfigError("Telegram isn't set up yet. Run: python -m watcher setup-telegram")
+def telegram_configured(cfg):
+    return bool(cfg.telegram_bot_token and cfg.telegram_chat_id)
+
+
+def email_configured(cfg):
+    return bool(cfg.email_username and cfg.email_password and cfg.email_to)
+
+
+def require_alerts(cfg):
+    if not telegram_configured(cfg) and not email_configured(cfg):
+        raise ConfigError(
+            "No alerts are set up yet. Run: python -m watcher setup-telegram  and/or  python -m watcher setup-email"
+        )
 
 
 def load_captures(path):
