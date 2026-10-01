@@ -184,7 +184,8 @@ def main(argv=None):
     try:
         args.fn(args)
     except ConfigError as e:
-        sys.exit(f"Setup problem: {e}")
+        print(f"Setup problem: {e}", file=sys.stderr)
+        sys.exit(2)  # cloud/run-watcher.sh doesn't restart on this
 
 
 if __name__ == "__main__":

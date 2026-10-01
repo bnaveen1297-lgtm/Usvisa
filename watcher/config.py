@@ -128,7 +128,10 @@ def load_captures(path):
     path = Path(path)
     if not path.exists():
         raise ConfigError(f"{path} not found. Run: python -m watcher learn")
-    captures = [Capture(**c) for c in json.loads(path.read_text())]
+    try:
+        captures = [Capture(**c) for c in json.loads(path.read_text())]
+    except (ValueError, TypeError):
+        raise ConfigError(f"{path} is damaged. Run: python -m watcher learn") from None
     if not captures:
         raise ConfigError(f"{path} has no requests in it. Run: python -m watcher learn")
     return captures

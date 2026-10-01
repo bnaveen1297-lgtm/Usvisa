@@ -3,7 +3,7 @@ from datetime import date, timedelta
 import pytest
 
 from watcher.__main__ import _write_env
-from watcher.config import ConfigError, load_config
+from watcher.config import ConfigError, load_captures, load_config
 
 
 def write(tmp_path, text):
@@ -47,3 +47,11 @@ def test_write_env_updates_in_place(tmp_path):
     env.write_text("# mine\nTELEGRAM_CHAT_ID=1\nOTHER=x\n")
     _write_env(env, {"TELEGRAM_BOT_TOKEN": "t", "TELEGRAM_CHAT_ID": "2"})
     assert env.read_text() == "# mine\nTELEGRAM_CHAT_ID=2\nOTHER=x\nTELEGRAM_BOT_TOKEN=t\n"
+
+
+def test_damaged_or_empty_captures_file(tmp_path):
+    f = tmp_path / "captured_requests.json"
+    for text in ("not json", '[{"wrong": 1}]', "[]"):
+        f.write_text(text)
+        with pytest.raises(ConfigError, match="learn"):
+            load_captures(f)

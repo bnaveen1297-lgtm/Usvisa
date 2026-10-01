@@ -13,8 +13,10 @@ What it does:
 What it doesn't do: solve CAPTCHAs, book or reschedule anything, or send your password anywhere.
 Your login lives only in a browser profile folder on your own computer.
 
-> **Note:** this needs your laptop on and awake. The India portal's login has a CAPTCHA, so a person
-> has to log in. It can't run unattended in the cloud (e.g. GitHub Actions).
+> **Where it runs:** on your laptop (below), or 24/7 on a Google Cloud VM that you open from
+> your phone. For the VM, see **[docs/google-cloud.md](docs/google-cloud.md)**. Either way, you log in
+> yourself because the portal has a CAPTCHA, so serverless hosts like Vercel, Supabase or Firebase
+> can't run it.
 
 ---
 
