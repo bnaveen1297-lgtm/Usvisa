@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # One-time setup for a Debian 12 Google Cloud VM. In the VM's SSH window, run:
-#   curl -fsSL https://raw.githubusercontent.com/bnaveen1297-lgtm/Usvisa/master/cloud/setup-vm.sh | bash
-# Safe to run again (e.g. after an update).
+#   gh repo clone bnaveen1297-lgtm/Usvisa ~/Usvisa && bash ~/Usvisa/cloud/setup-vm.sh
+# (after `gh auth login`; see docs/google-cloud.md). Safe to run again, e.g. after an update.
 set -euo pipefail
 
 REPO_URL="${REPO_URL:-https://github.com/bnaveen1297-lgtm/Usvisa.git}"

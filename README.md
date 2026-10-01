@@ -25,6 +25,9 @@ Your login lives only in a browser profile folder on your own computer.
 You need **Python 3.11 or newer** ([python.org/downloads](https://www.python.org/downloads/);
 on Windows, tick *"Add python.exe to PATH"* in the installer).
 
+Get the code onto your laptop. The repo is private, so either use **Code → Download ZIP** on
+GitHub while signed in, or [GitHub Desktop](https://desktop.github.com/) → *Clone repository*.
+
 Open a terminal in this folder. On Windows, use `py` wherever you see `python` below.
 
 ```bash

@@ -50,11 +50,20 @@ gcloud compute instances create visa-watcher \
 ## 3. Run the setup script
 
 1. In the VM list, click **SSH** next to `visa-watcher`. A terminal window opens in your browser.
-2. Paste this and press Enter:
+2. Your repo is private, so first let the VM sign in to GitHub. Paste these two lines and press
+   Enter:
    ```bash
-   curl -fsSL https://raw.githubusercontent.com/bnaveen1297-lgtm/Usvisa/master/cloud/setup-vm.sh | bash
+   sudo apt-get update -q && sudo apt-get install -y -q gh
+   gh auth login
    ```
-3. Wait 5–10 minutes until it prints **Done**. Keep this window open for the next step.
+   Answer the questions: **GitHub.com** → **HTTPS** → **Yes** (authenticate Git) → **Login with
+   a web browser**. It shows an 8-character code. On your phone or computer, open
+   https://github.com/login/device, enter the code, and approve.
+3. Download the watcher and run the setup:
+   ```bash
+   gh repo clone bnaveen1297-lgtm/Usvisa ~/Usvisa && bash ~/Usvisa/cloud/setup-vm.sh
+   ```
+4. Wait 5–10 minutes until it prints **Done**. Keep this window open for the next step.
 
 It installs a lightweight desktop, Chrome Remote Desktop, and the watcher. It also sets the
 clock to India time and adds two shortcuts to the desktop.
@@ -120,6 +129,7 @@ minute.
 | Problem | Fix |
 |---|---|
 | Remote desktop is black or grey | Restart it: in the SSH window run `sudo systemctl restart chrome-remote-desktop@$USER`, or **Reset** the VM. |
+| `gh repo clone` says "not found" or asks for a password | Run `gh auth login` again and make sure you approve the code with the GitHub account that owns the repo. |
 | VM doesn't appear in remotedesktop.google.com | Redo step 4. The headless command expires after a few minutes, so get a fresh one. |
 | Portal blocks you or loops on CAPTCHA from the VM | It's probably blocking cloud IPs. Use your laptop instead, and **Stop** or **Delete** the VM. |
 | No "started" alert after a reboot | Connect via remote desktop and look at the "Start visa watcher" window for the error. |
