@@ -1,0 +1,24 @@
+# Copy this file to config.toml and edit it.
+
+portal_url = "https://www.usvisascheduling.com/"
+
+# Only slots inside this window send an alert (format YYYY-MM-DD).
+# earliest: the soonest you could actually attend (leave time to travel).
+#           If you leave it out, it defaults to 2 days from today.
+# latest:   anything after this isn't worth switching to (e.g. one day before
+#           your current appointment, or your travel deadline).
+earliest_acceptable_date = "2026-10-10"
+latest_acceptable_date = "2027-01-31"
+
+# How often to check. Each wait is randomized by +/- jitter_minutes.
+# Minimum is 5. Checking more often than every ~10 minutes raises the risk
+# of the portal locking your account.
+check_interval_minutes = 15
+jitter_minutes = 4
+
+# A "still running" message so you know it hasn't silently died.
+heartbeat_hours = 24
+
+# Leave empty to use the browser Playwright installs. Set to "chrome" or
+# "msedge" to use one already installed on your computer instead.
+browser_channel = ""

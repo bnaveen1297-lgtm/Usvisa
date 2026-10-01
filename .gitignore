@@ -1,0 +1,9 @@
+# Your secrets and personal settings: never commit these.
+.env
+config.toml
+captured_requests.json
+browser-profile/
+
+__pycache__/
+.pytest_cache/
+.venv/
